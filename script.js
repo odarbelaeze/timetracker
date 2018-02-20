@@ -54,6 +54,7 @@ const track = async (page, {
     focal,
     description,
     latency,
+    dry,
 }) => {
     const outside = '#ctl00_ContentPlaceHolder_FechaLabel';
     const dateSelector = '#ctl00_ContentPlaceHolder_txtFrom';
@@ -85,8 +86,10 @@ const track = async (page, {
     await page.click(outside);
     await page.waitFor(latency);
 
-    // await page.click(acceptButtonSelector);
-    // await page.waitForNavigation({waitUntil: 'networkidle2'});
+    if (dry) return;
+
+    await page.click(acceptButtonSelector);
+    await page.waitFor(latency);
 }
 
 
@@ -124,7 +127,9 @@ Usage:
     load-tt [options] <message>
 
 Options:
-    --date=<date>     Date for the tt load.
+    --date=<date>           Date for the tt load.
+    --dry                   Don't commit the hours, just screenshoot.
+    --latency=<latency>     Latency of the network, default: 200.
 
 `;
 
@@ -136,11 +141,19 @@ Options:
         const config = await yml.safeLoad(configStr);
         const browser = await puppeteer.launch({headless: true});
         const timeTracker = await timeTrackerPage(browser, config.credentials);
+        console.log(arguments);
         const toTrack = {
             ...config.options,
-            date: moment(arguments['--date']),
+            date: moment(),
             description: arguments['<message>'],
+            dry: arguments['--dry'],
         };
+        if (arguments['--latency']) {
+            toTrack['latency'] = parseInt(arguments['--latency']);
+        }
+        if (arguments['--date']) {
+            toTrack['date'] = moment(arguments['--date']);
+        }
         await track(timeTracker, toTrack);
         await timeTracker.screenshot({path: 'page.png'});
         await browser.close();
