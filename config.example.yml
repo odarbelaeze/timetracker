@@ -1,0 +1,11 @@
+credentials:
+    username: 'username'
+    password: 'password'
+
+options:
+    project: 'AdRoll - AdRoll'
+    assignment: 'Software'
+    focal: 'James Kelly'
+    hours: '8'
+    latency: 300
+
