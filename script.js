@@ -67,8 +67,8 @@ const track = async (page, {
 
     const dateInput = date.format('DD/MM/YYYY');
     await fill(page, dateSelector, dateInput);
-    await page.waitFor(latency);
     await page.click(outside);
+    await page.waitFor(latency);
     await select(page, projectSelector, project);
     await page.click(outside);
     await page.waitFor(latency);
@@ -130,8 +130,21 @@ Options:
     --date=<date>           Date for the tt load.
     --dry                   Don't commit the hours, just screenshoot.
     --latency=<latency>     Latency of the network, default: 200.
+    --yesterday             Set the date to yesterday (too lazy).
 
 `;
+
+
+/**
+ * Figure out when the user wants to track their hours.
+ */
+const when = arguments => {
+    const date = arguments['--date'];
+    const yesterday = arguments['--yesterday'];
+    if (date) return moment(date);
+    if (yesterday) return moment().add(-1, 'days');
+    return moment();
+}
 
 
 (async () => {
@@ -144,18 +157,15 @@ Options:
         console.log(arguments);
         const toTrack = {
             ...config.options,
-            date: moment(),
+            date: when(arguments),
             description: arguments['<message>'],
             dry: arguments['--dry'],
         };
         if (arguments['--latency']) {
             toTrack['latency'] = parseInt(arguments['--latency']);
         }
-        if (arguments['--date']) {
-            toTrack['date'] = moment(arguments['--date']);
-        }
         await track(timeTracker, toTrack);
-        await timeTracker.screenshot({path: 'page.png'});
+        await timeTracker.screenshot({path: 'page.png', fullPage: true});
         await browser.close();
     } catch(e) {
         console.log(e);
