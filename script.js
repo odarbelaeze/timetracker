@@ -131,7 +131,7 @@ Options:
     --dry                   Don't commit the hours, just screenshoot.
     --latency=<latency>     Latency of the network, default: 200.
     --yesterday             Set the date to yesterday (too lazy).
-
+    --pto                   Set the project as pto instead
 `;
 
 
@@ -161,6 +161,11 @@ const when = arguments => {
             description: arguments['<message>'],
             dry: arguments['--dry'],
         };
+        if (arguments['--pto']) {
+            toTrack['project'] = 'BairesDev - Absence';
+            toTrack['assignment'] = 'National Holiday';
+            toTrack['focal'] = '';
+        }
         if (arguments['--latency']) {
             toTrack['latency'] = parseInt(arguments['--latency']);
         }
