@@ -1,10 +1,18 @@
 language: node_js
 node_js:
-  - "8"
+- '8'
 install:
-  - npm install
-  - npm link
+- npm install
+- npm link
 script:
-  - load-tt --help
+- load-tt --help
 before_deploy:
-  - npm run build
+- npm run build
+deploy:
+  provider: npm
+  email: odarbelaeze@gmail.com
+  api_key:
+    secure: JLcDXm6Uv85cWs8V5HddNCM/oPcX0Ue46xaARt+xTDOYHcHVu3fZ77VHzYIYMzorBIWolRTbI0w65lK1yt5cdtUMWNqBAqIuIBFPovBVVrbm9nOlOCpjxAgI0FYJGZY8YCXOPzfNhH/fh1V28ASEf0W9lXaY0ACjGOgfL0S76Rtn6pqBWSrSZr9QkkXThVAOqfsNbCVkLaG7qJ0mg7mr0jJLZzos0THhAgHOCZKfqyxFOcbZT2LXxDW38Gw5p7nIMh/Rl9k3lWpLINvQ6/BQQZB0C9XMCxKlcEbF9xTaSysL9S/6ctT+0aFmVx/BQ/+WcGbPNLpDLBtCYPDZHGN1L/5/1J7xZxcxXRPlsyduIvrS8C+xTqS0/e+BcG7U8dCq2jCjIZOJdgkcRia7lUHWXymXc6BpLx6zufKtVZzDpPlVPKXox7lZouxwVf0nU2bx1WQrHZlMmZopHETMoBD1vjqMArsGBvNJPX1zmvWupgQ39+11He4Q0ltugCqt6jHihgEZ7S7UDU8nNJgzhm0sEenjm30vRtmVErY03CD0iUP5VaNHU7RxM2CyakdGVgPi0+mPLVPg7AvzizTksvrgnzzrRrH/Wbha7ICMpd/OYDDafRh5W8aYzZQiOfYdbnWu5aQf/ODTRmubQwuiXHgFJxxKoDs4mdXgeHhwNOHz0s8=
+  on:
+    tags: true
+    repo: odarbelaeze/timetracker
