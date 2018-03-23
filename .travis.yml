@@ -3,6 +3,7 @@ node_js:
   - "8"
 install:
   - npm install
+  - npm link
 script:
   - load-tt --help
 before_deploy:
