@@ -138,9 +138,9 @@ Options:
 /**
  * Figure out when the user wants to track their hours.
  */
-const when = arguments => {
-    const date = arguments['--date'];
-    const yesterday = arguments['--yesterday'];
+const when = args => {
+    const date = args['--date'];
+    const yesterday = args['--yesterday'];
     if (date) return moment(date);
     if (yesterday) return moment().add(-1, 'days');
     return moment();
@@ -149,25 +149,25 @@ const when = arguments => {
 
 (async () => {
     try {
-        const arguments = docopt.docopt(usage, {version: 1.0});
+        const args = docopt.docopt(usage, {version: 1.0});
         const configStr = fs.readFileSync(os.homedir() + '/.timetracker/config.yml');
         const config = await yml.safeLoad(configStr);
         const browser = await puppeteer.launch({headless: true});
         const timeTracker = await timeTrackerPage(browser, config.credentials);
-        console.log(arguments);
+        console.log(args);
         const toTrack = {
             ...config.options,
-            date: when(arguments),
-            description: arguments['<message>'],
-            dry: arguments['--dry'],
+            date: when(args),
+            description: args['<message>'],
+            dry: args['--dry'],
         };
-        if (arguments['--pto']) {
+        if (args['--pto']) {
             toTrack['project'] = 'BairesDev - Absence';
             toTrack['assignment'] = 'National Holiday';
             toTrack['focal'] = '';
         }
-        if (arguments['--latency']) {
-            toTrack['latency'] = parseInt(arguments['--latency']);
+        if (args['--latency']) {
+            toTrack['latency'] = parseInt(args['--latency']);
         }
         await track(timeTracker, toTrack);
         await timeTracker.screenshot({path: 'page.png', fullPage: true});
