@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "8"
+install:
+  - npm install
+script:
+  - load-tt --help
+before_deploy:
+  - npm run build
