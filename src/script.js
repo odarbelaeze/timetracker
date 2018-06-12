@@ -132,6 +132,7 @@ Options:
     --latency=<latency>     Latency of the network, default: 200.
     --yesterday             Set the date to yesterday (too lazy).
     --pto                   Set the project as pto instead
+    --vacations             Set the project as vacations instead
 `;
 
 
@@ -164,6 +165,11 @@ const when = args => {
         if (args['--pto']) {
             toTrack['project'] = 'BairesDev - Absence';
             toTrack['assignment'] = 'National Holiday';
+            toTrack['focal'] = '';
+        }
+        if (args['--vacations']) {
+            toTrack['project'] = 'BairesDev - Absence';
+            toTrack['assignment'] = 'Vacations';
             toTrack['focal'] = '';
         }
         if (args['--latency']) {
