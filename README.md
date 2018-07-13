@@ -14,3 +14,9 @@ After that you can do:
 ```shell
 $ load-tt "I did something awesome today"
 ```
+
+For other ways to load your time tracker:
+
+```shell
+$ load-tt --help
+```
