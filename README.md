@@ -1,3 +1,7 @@
+# DEPRECATED
+
+Please check out https://github.com/eyscode/timetracker
+
 # Time tracker
 
 Install by
